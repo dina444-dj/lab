@@ -1,0 +1,33 @@
+#include <iostream>
+using namespace std;
+
+class LinearEquation {
+private:
+    double first;   // коэффициент A
+    double second;  // коэффициент B
+
+public:
+    // Конструктор
+    LinearEquation(double a, double b) {
+        first = a;
+        second = b;
+    }
+
+    // Метод вычисления y = A*x + B
+    double function(double x) {
+        return first * x + second;
+    }
+};
+
+int main() {
+    // Создаем объект линейного уравнения y = 2x + 3
+    LinearEquation eq(2.0, 3.0);
+
+    double x = 5.0;
+    double y = eq.function(x);
+
+    cout << "x = " << x << endl;
+    cout << "y = " << y << endl;
+
+    return 0;
+}
