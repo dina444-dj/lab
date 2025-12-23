@@ -1,0 +1,31 @@
+#include <iostream>
+#include <concepts>
+using namespace std;
+
+// Концепт для ограничения типа: факториал можно вычислять только для целых чисел
+template<typename T>
+concept FactorialApplicable = std::integral<T>;
+
+// Шаблонная constexpr лямбда для вычисления факториала
+template <FactorialApplicable T>
+constexpr auto factorial = [](T n) constexpr {
+    T prod = 1;
+    for (T i = 1; i <= n; ++i) {
+        prod *= i;
+    }
+    return prod;
+};
+
+int main() {
+    // Вычисление факториала на этапе компиляции
+    constexpr auto result5 = factorial<int>(5);  // 5! = 120
+    constexpr auto result7 = factorial<unsigned>(7);  // 7! = 5040
+
+    cout << "5! = " << result5 << endl;
+    cout << "7! = " << result7 << endl;
+
+    // Можно использовать в static_assert
+    static_assert(factorial<int>(3) == 6, "3! должен быть равен 6");
+
+    return 0;
+}
