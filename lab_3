@@ -1,0 +1,85 @@
+#include <iostream>
+using namespace std;
+
+// Базовый класс Triad
+class Triad {
+protected:
+    int first;
+    int second;
+    int third;
+
+public:
+    // Конструктор
+    Triad(int a, int b, int c) {
+        first = a;
+        second = b;
+        third = c;
+    }
+
+    // Сравнение триад
+    bool operator<(const Triad& t) const {
+        if (first != t.first)
+            return first < t.first;
+        if (second != t.second)
+            return second < t.second;
+        return third < t.third;
+    }
+
+    bool operator>(const Triad& t) const {
+        return t < *this;
+    }
+
+    bool operator==(const Triad& t) const {
+        return first == t.first &&
+               second == t.second &&
+               third == t.third;
+    }
+
+    bool operator!=(const Triad& t) const {
+        return !(*this == t);
+    }
+
+    bool operator<=(const Triad& t) const {
+        return (*this < t) || (*this == t);
+    }
+
+    bool operator>=(const Triad& t) const {
+        return (*this > t) || (*this == t);
+    }
+};
+
+// Производный класс Date
+class Date : public Triad {
+public:
+    // Конструктор
+    Date(int year, int month, int day)
+        : Triad(year, month, day) {}
+
+    // Методы доступа
+    int getYear() const { return first; }
+    int getMonth() const { return second; }
+    int getDay() const { return third; }
+
+    // Вывод даты
+    void print() const {
+        cout << first << "."
+             << (second < 10 ? "0" : "") << second << "."
+             << (third < 10 ? "0" : "") << third << endl;
+    }
+};
+
+// Проверка работы
+int main() {
+    Date d1(2023, 10, 15);
+    Date d2(2024, 3, 5);
+
+    d1.print();
+    d2.print();
+
+    cout << "d1 < d2: " << (d1 < d2) << endl;
+    cout << "d1 > d2: " << (d1 > d2) << endl;
+    cout << "d1 == d2: " << (d1 == d2) << endl;
+    cout << "d1 != d2: " << (d1 != d2) << endl;
+
+    return 0;
+}
