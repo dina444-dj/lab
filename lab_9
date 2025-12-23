@@ -1,0 +1,33 @@
+#include <iostream>
+#include <array>
+using namespace std;
+
+// Шаблон для вычисления факториала одного числа
+template<int N>
+struct Factorial {
+    static constexpr int value = N * Factorial<N - 1>::value;
+};
+
+// Специализация для 0
+template<>
+struct Factorial<0> {
+    static constexpr int value = 1;
+};
+
+// Функция для вычисления факториалов нескольких чисел
+template<int... Values>
+constexpr auto compileTimeFactorial() {
+    return array<int, sizeof...(Values)>{ Factorial<Values>::value... };
+}
+
+// Пример использования
+int main() {
+    constexpr auto fact = compileTimeFactorial<0, 1, 2, 3, 4, 5>();
+
+    for (auto f : fact) {
+        cout << f << " ";
+    }
+    cout << endl; // 1 1 2 6 24 120
+
+    return 0;
+}
