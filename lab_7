@@ -1,0 +1,65 @@
+#include <iostream>
+#include <sstream>
+#include <string>
+
+using namespace std;
+
+template <typename T>
+class Optional {
+private:
+    T value;
+    bool has_value;
+
+public:
+    // Конструктор по умолчанию — значения нет
+    Optional() : has_value(false) {}
+
+    // Конструктор с значением
+    Optional(const T& val) : value(val), has_value(true) {}
+
+    // Проверка наличия значения
+    bool hasValue() const {
+        return has_value;
+    }
+
+    // Получение значения
+    T getValue() const {
+        if (!has_value) {
+            throw runtime_error("Нет значения!");
+        }
+        return value;
+    }
+
+    // Установка значения
+    void setValue(const T& val) {
+        value = val;
+        has_value = true;
+    }
+
+    // Получение содержимого в виде строки
+    string toString() const {
+        if (!has_value) return "None";
+        ostringstream oss;
+        oss << value;
+        return oss.str();
+    }
+
+    // Перегрузка вывода в поток
+    friend ostream& operator<<(ostream& os, const Optional<T>& opt) {
+        if (opt.has_value)
+            os << opt.value;
+        else
+            os << "None";
+        return os;
+    }
+
+    // Перегрузка чтения из потока
+    friend istream& operator>>(istream& is, Optional<T>& opt) {
+        T val;
+        is >> val;
+        if (is) {
+            opt.setValue(val);
+        }
+        return is;
+    }
+};
