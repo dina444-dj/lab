@@ -1,0 +1,17 @@
+#include <iostream>
+using namespace std;
+
+int integerPart(int numerator, int denominator);
+
+int main() {
+    int a = 7;
+    int b = 3;
+
+    cout << integerPart(a, b) << endl; // 2
+
+    return 0;
+}
+
+int integerPart(int numerator, int denominator) {
+    return numerator / denominator;
+}
