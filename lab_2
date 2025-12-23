@@ -1,0 +1,112 @@
+#include <iostream>
+#include <string>
+#include <cmath>
+using namespace std;
+
+class Time {
+private:
+    int hours;
+    int minutes;
+    int seconds;
+
+    // Приведение времени к корректному виду
+    void normalize() {
+        int total = toSeconds();
+        if (total < 0) total = 0;
+
+        hours = (total / 3600) % 24;
+        minutes = (total % 3600) / 60;
+        seconds = total % 60;
+    }
+
+public:
+    // 1. Инициализация числами
+    Time(int h, int m, int s) {
+        hours = h;
+        minutes = m;
+        seconds = s;
+        normalize();
+    }
+
+    // 2. Инициализация строкой "hh:mm:ss"
+    Time(string str) {
+        hours = stoi(str.substr(0, 2));
+        minutes = stoi(str.substr(3, 2));
+        seconds = stoi(str.substr(6, 2));
+        normalize();
+    }
+
+    // 3. Инициализация количеством секунд
+    Time(int totalSeconds) {
+        hours = 0;
+        minutes = 0;
+        seconds = totalSeconds;
+        normalize();
+    }
+
+    // 4. Инициализация другим объектом Time
+    Time(const Time& t) {
+        hours = t.hours;
+        minutes = t.minutes;
+        seconds = t.seconds;
+    }
+
+    // Перевод в секунды
+    int toSeconds() const {
+        return hours * 3600 + minutes * 60 + seconds;
+    }
+
+    // Перевод в минуты (с округлением)
+    int toMinutes() const {
+        return (int)round(toSeconds() / 60.0);
+    }
+
+    // Разница между двумя моментами времени (в секундах)
+    int difference(const Time& t) const {
+        return abs(toSeconds() - t.toSeconds());
+    }
+
+    // Сложение времени и секунд
+    void addSeconds(int s) {
+        seconds += s;
+        normalize();
+    }
+
+    // Сравнение моментов времени
+    bool operator<(const Time& t) const {
+        return toSeconds() < t.toSeconds();
+    }
+
+    bool operator==(const Time& t) const {
+        return toSeconds() == t.toSeconds();
+    }
+
+    // Вывод времени
+    void print() const {
+        cout << (hours < 10 ? "0" : "") << hours << ":"
+             << (minutes < 10 ? "0" : "") << minutes << ":"
+             << (seconds < 10 ? "0" : "") << seconds << endl;
+    }
+};
+
+int main() {
+    Time t1(10, 30, 45);
+    Time t2("12:15:20");
+    Time t3(5000);
+    Time t4(t1);
+
+    t1.print();
+    t2.print();
+    t3.print();
+    t4.print();
+
+    cout << "Difference (sec): " << t1.difference(t2) << endl;
+
+    t1.addSeconds(500);
+    t1.print();
+
+    cout << "t1 < t2: " << (t1 < t2) << endl;
+    cout << "Minutes (rounded): " << t1.toMinutes() << endl;
+
+    return 0;
+}
