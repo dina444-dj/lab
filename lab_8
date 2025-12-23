@@ -1,0 +1,38 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+// Шаблонная структура для хранения групп по типам
+template<typename T1, typename T2>
+struct Grouped2 {
+    vector<T1> group1;
+    vector<T2> group2;
+};
+
+// Перегрузка функции для двух типов
+template<typename T1, typename T2>
+Grouped2<T1, T2> groupByType(T1 a1, T2 a2) {
+    Grouped2<T1, T2> result;
+    result.group1.push_back(a1);
+    result.group2.push_back(a2);
+    return result;
+}
+
+// Дополнительные функции для вывода
+template<typename T>
+void printVector(const vector<T>& v) {
+    for (size_t i = 0; i < v.size(); ++i)
+        cout << v[i] << " ";
+    cout << endl;
+}
+
+int main() {
+    auto grouped = groupByType(10, 3.14); // int и double
+    cout << "Int group: ";
+    printVector(grouped.group1);
+    cout << "Double group: ";
+    printVector(grouped.group2);
+
+    return 0;
+}
