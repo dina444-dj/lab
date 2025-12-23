@@ -1,0 +1,82 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Hex {
+private:
+    unsigned char digits[100]; // hex-цифры
+    int size;                  // количество значащих цифр
+
+public:
+    // Инициализация нулем
+    Hex() {
+        size = 1;
+        digits[0] = 0;
+    }
+
+    // Инициализация из строки (например "1A3F")
+    Hex(const string& str) {
+        size = str.length();
+        for (int i = 0; i < size; i++) {
+            char c = str[size - 1 - i];
+            if (c >= '0' && c <= '9')
+                digits[i] = c - '0';
+            else
+                digits[i] = c - 'A' + 10;
+        }
+    }
+
+    // Вывод числа
+    void print() const {
+        for (int i = size - 1; i >= 0; i--) {
+            if (digits[i] < 10)
+                cout << char('0' + digits[i]);
+            else
+                cout << char('A' + digits[i] - 10);
+        }
+        cout << endl;
+    }
+};
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+class Fraction {
+private:
+    int sign;        // 1 или -1
+    long long value; // число без точки
+    int fracDigits;  // количество цифр после точки
+
+public:
+    // Конструктор
+    Fraction(double x, int digits) {
+        sign = (x < 0) ? -1 : 1;
+        x = abs(x);
+
+        fracDigits = digits;
+        value = (long long)(x * pow(10, fracDigits) + 0.5);
+    }
+
+    // Вывод дроби
+    void print() const {
+        if (sign < 0) cout << "-";
+
+        long long intPart = value / (long long)pow(10, fracDigits);
+        long long fracPart = value % (long long)pow(10, fracDigits);
+
+        cout << intPart << ".";
+
+        // ведущие нули в дробной части
+        long long temp = fracPart;
+        int count = 0;
+        while (temp > 0) {
+            temp /= 10;
+            count++;
+        }
+        for (int i = 0; i < fracDigits - count; i++)
+            cout << "0";
+
+        cout << fracPart << endl;
+    }
+};
