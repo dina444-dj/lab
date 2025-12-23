@@ -1,0 +1,90 @@
+#include <iostream>
+#include <string>
+#include <cmath>
+using namespace std;
+
+class Time {
+private:
+    int h;
+    int m;
+    int s;
+
+    // Нормализация времени
+    void normalize() {
+        int total = toSeconds();
+        if (total < 0) total = 0;
+
+        h = total / 3600;
+        m = (total % 3600) / 60;
+        s = total % 60;
+    }
+
+public:
+    // 1. Инициализация числами
+    Time(int hours, int minutes, int seconds) {
+        h = hours;
+        m = minutes;
+        s = seconds;
+        normalize();
+    }
+
+    // 2. Инициализация строкой "hh:mm:ss"
+    Time(const string& str) {
+        h = stoi(str.substr(0, 2));
+        m = stoi(str.substr(3, 2));
+        s = stoi(str.substr(6, 2));
+        normalize();
+    }
+
+    // 3. Инициализация количеством секунд
+    Time(int totalSeconds) {
+        h = 0;
+        m = 0;
+        s = totalSeconds;
+        normalize();
+    }
+
+    // 4. Инициализация другим объектом Time
+    Time(const Time& t) {
+        h = t.h;
+        m = t.m;
+        s = t.s;
+    }
+
+    // Перевод в секунды
+    int toSeconds() const {
+        return h * 3600 + m * 60 + s;
+    }
+
+    // Перевод в минуты (с округлением)
+    int toMinutes() const {
+        return (int)round(toSeconds() / 60.0);
+    }
+
+    // Разница между двумя моментами времени (в секундах)
+    int difference(const Time& t) const {
+        return abs(toSeconds() - t.toSeconds());
+    }
+
+    // Сложение времени и секунд
+    void addSeconds(int sec) {
+        s += sec;
+        normalize();
+    }
+
+    // Сравнение моментов времени
+    bool operator<(const Time& t) const {
+        return toSeconds() < t.toSeconds();
+    }
+
+    bool operator==(const Time& t) const {
+        return toSeconds() == t.toSeconds();
+    }
+
+    // Вывод времени
+    void print() const {
+        cout << (h < 10 ? "0" : "") << h << ":"
+             << (m < 10 ? "0" : "") << m << ":"
+             << (s < 10 ? "0" : "") << s << endl;
+    }
+};
