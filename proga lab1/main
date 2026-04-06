@@ -1,0 +1,18 @@
+import java.util.Date;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Time t1 = new Time(10, 30, 0);
+        Time t2 = Time.fromString("12:00:30");
+        Time t3 = Time.fromSeconds(5000);
+        Time t4 = Time.fromDate(new Date());
+
+        System.out.println(t1.toString());                 // "10:30:00"
+        System.out.println(t2.toSeconds());                // секунды
+        System.out.println(t1.difference(t2));             // разница
+        System.out.println(t1.addSeconds(120).toString()); // "10:32:00"
+        System.out.println(t1.compare(t2));                // -1, 0 или 1
+        System.out.println(t1.toMinutes());                // минуты
+    }
+}
