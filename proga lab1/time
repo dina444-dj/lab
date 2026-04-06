@@ -1,0 +1,72 @@
+public class Time {
+    private int totalSeconds;
+
+    // Конструктор
+    public Time(int hours, int minutes, int seconds) {
+        this.totalSeconds = hours * 3600 + minutes * 60 + seconds;
+    }
+
+    // Инициализация из строки "HH:MM:SS"
+    public static Time fromString(String str) {
+        String[] parts = str.split(":");
+        int h = Integer.parseInt(parts[0]);
+        int m = Integer.parseInt(parts[1]);
+        int s = Integer.parseInt(parts[2]);
+        return new Time(h, m, s);
+    }
+
+    // Инициализация из общего количества секунд
+    public static Time fromSeconds(int totalSeconds) {
+        return new Time(0, 0, totalSeconds);
+    }
+
+    // Инициализация из Date
+    public static Time fromDate(java.util.Date date) {
+        return new Time(
+            date.getHours(),
+            date.getMinutes(),
+            date.getSeconds()
+        );
+    }
+
+    // Перевод в секунды
+    public int toSeconds() {
+        return totalSeconds;
+    }
+
+    // Перевод в минуты (с округлением)
+    public int toMinutes() {
+        return Math.round(totalSeconds / 60.0f);
+    }
+
+    // Разница между двумя моментами времени
+    public int difference(Time otherTime) {
+        return Math.abs(this.totalSeconds - otherTime.totalSeconds);
+    }
+
+    // Сложение времени и секунд
+    public Time addSeconds(int seconds) {
+        return Time.fromSeconds(this.totalSeconds + seconds);
+    }
+
+    // Сравнение времени
+    public int compare(Time otherTime) {
+        if (this.totalSeconds > otherTime.totalSeconds) return 1;
+        if (this.totalSeconds < otherTime.totalSeconds) return -1;
+        return 0;
+    }
+
+    // Преобразование в "HH:MM:SS"
+    @id86240433 (@Override)
+    public String toString() {
+        int seconds = totalSeconds;
+
+        int h = seconds / 3600;
+        seconds %= 3600;
+
+        int m = seconds / 60;
+        int s = seconds % 60;
+
+        return String.format("%02d:%02d:%02d", h, m, s);
+    }
+}
