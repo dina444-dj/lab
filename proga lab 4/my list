@@ -1,0 +1,104 @@
+import java.util.ArrayList;
+
+class MyList<T extends Comparable<T>> {
+
+    private class Node {
+        T data;
+        Node next;
+
+        Node(T data) {
+            this.data = data;
+        }
+    }
+
+    private Node head;
+
+    // Добавление в конец
+    public void add(T value) {
+        if (value == null) {
+            System.out.println("Ошибка: null значение!");
+            System.exit(1);
+        }
+
+        Node newNode = new Node(value);
+
+        if (head == null) {
+            head = newNode;
+            return;
+        }
+
+        Node temp = head;
+        while (temp.next != null) {
+            temp = temp.next;
+        }
+        temp.next = newNode;
+    }
+
+    // Преобразование в ArrayList (удобно для сортировки)
+    private ArrayList<T> toArray() {
+        ArrayList<T> arr = new ArrayList<>();
+        Node temp = head;
+
+        while (temp != null) {
+            arr.add(temp.data);
+            temp = temp.next;
+        }
+
+        return arr;
+    }
+
+    // Обратно в список
+    private void fromArray(ArrayList<T> arr) {
+        head = null;
+        for (T val : arr) {
+            add(val);
+        }
+    }
+
+    // ===== СОРТИРОВКА БЭТЧЕРА =====
+    public void batcherSort() {
+        ArrayList<T> arr = toArray();
+        int n = arr.size();
+
+        for (int p = 1; p < n; p *= 2) {
+            for (int k = p; k > 0; k /= 2) {
+                for (int i = 0; i < n; i++) {
+                    int j = i ^ k;
+                    if (j > i) {
+                        if ((i & p) == 0) {
+                            if (arr.get(i).compareTo(arr.get(j)) > 0) {
+                                swap(arr, i, j);
+                            }
+                        } else {
+                            if (arr.get(i).compareTo(arr.get(j)) < 0) {
+                                swap(arr, i, j);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        fromArray(arr);
+    }
+
+    private void swap(ArrayList<T> arr, int i, int j) {
+        T temp = arr.get(i);
+        arr.set(i, arr.get(j));
+        arr.set(j, temp);
+    }
+
+    // toString
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        Node temp = head;
+
+        while (temp != null) {
+            sb.append(temp.data).append(" -> ");
+            temp = temp.next;
+        }
+
+        sb.append("null");
+        return sb.toString();
+    }
+}
