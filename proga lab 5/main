@@ -1,0 +1,44 @@
+import java.util.*;
+import java.util.regex.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        String text = "Привет! Как дела? Всё хорошо, надеюсь. "
+                + "Это тестовое предложение, с множеством: знаков, препинания! Правда? "
+                + "А вот ещё одно предложение... Оно содержит, возможно, больше всего знаков!!! "
+                + "И последнее: короткое.";
+
+        // 1. Разбиваем текст на предложения
+        String[] sentences = text.split("(?<=[.!?])\\s+");
+
+        // 2. Регулярка для знаков препинания
+        Pattern punctPattern = Pattern.compile("[.,!?;:—-]");
+
+        // 3. Храним пары (предложение, количество знаков)
+        List<Map.Entry<String, Integer>> list = new ArrayList<>();
+
+        for (String sentence : sentences) {
+            Matcher matcher = punctPattern.matcher(sentence);
+
+            int count = 0;
+            while (matcher.find()) {
+                count++;
+            }
+
+            list.add(new AbstractMap.SimpleEntry<>(sentence, count));
+        }
+
+        // 4. Сортируем по убыванию количества знаков
+        list.sort((a, b) -> b.getValue() - a.getValue());
+
+        // 5. Выводим топ-3
+        System.out.println("Три предложения с наибольшим количеством знаков препинания:\n");
+
+        for (int i = 0; i < Math.min(3, list.size()); i++) {
+            System.out.println("[" + list.get(i).getValue() + " знаков] "
+                    + list.get(i).getKey());
+        }
+    }
+}
