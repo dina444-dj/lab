@@ -1,0 +1,70 @@
+class Triad {
+    protected int a, b, c;
+
+    // Конструкторы
+    public Triad() {
+        this(0, 0, 0);
+    }
+
+    public Triad(int a, int b, int c) {
+        setA(a);
+        setB(b);
+        setC(c);
+    }
+
+    // Проверка
+    protected void check(int value) {
+        if (value < 0) {
+            System.out.println("Ошибка: отрицательное значение!");
+            System.exit(1);
+        }
+    }
+
+    // Get
+    public int getA() { return a; }
+    public int getB() { return b; }
+    public int getC() { return c; }
+
+    // Set
+    public void setA(int value) {
+        check(value);
+        a = value;
+    }
+
+    public void setB(int value) {
+        check(value);
+        b = value;
+    }
+
+    public void setC(int value) {
+        check(value);
+        c = value;
+    }
+
+    // Сумма
+    public int sum() {
+        return a + b + c;
+    }
+
+    // Сравнение
+    public boolean equals(Triad other) {
+        return this.sum() == other.sum();
+    }
+
+    public boolean notEquals(Triad other) {
+        return !equals(other);
+    }
+
+    public boolean greaterThan(Triad other) {
+        return this.sum() > other.sum();
+    }
+
+    public boolean lessThan(Triad other) {
+        return this.sum() < other.sum();
+    }
+
+    // Строка
+    public String toString() {
+        return "Triad: (" + a + ", " + b + ", " + c + ")";
+    }
+}
