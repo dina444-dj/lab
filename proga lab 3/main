@@ -1,0 +1,24 @@
+public class Main {
+    public static void main(String[] args) {
+
+        // ===== HEX =====
+        Hex h1 = new Hex("1A3F");
+        Hex h2 = new Hex("1A3F");
+
+        System.out.println("Hex 1: " + h1.toString());
+        System.out.println("Hex 2: " + h2.toString());
+
+        System.out.println("Равны: " + h1.equals(h2));
+
+        // ===== FRACTION =====
+        int[] frac = {1, 2, 5};
+
+        Fraction f1 = new Fraction(12, frac, true);
+        Fraction f2 = new Fraction(7, new int[]{9, 9}, false);
+
+        System.out.println("Fraction 1: " + f1.toString());
+        System.out.println("Fraction 2: " + f2.toString());
+    }
+}
+
+
