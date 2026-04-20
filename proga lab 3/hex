@@ -1,0 +1,64 @@
+class Hex {
+    private int[] digits = new int[100]; // 0–15
+    private int size; // фактическая длина
+
+    // Конструктор по умолчанию
+    public Hex() {
+        size = 1;
+        digits[0] = 0;
+    }
+
+    // Конструктор из строки
+    public Hex(String hex) {
+        setFromString(hex);
+    }
+
+    // Проверка символа
+    private int charToHex(char c) {
+        if (c >= '0' && c <= '9') return c - '0';
+        if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+        if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+
+        System.out.println("Ошибка: неверный HEX символ!");
+        System.exit(1);
+        return 0;
+    }
+
+    // Установка значения
+    public void setFromString(String hex) {
+        if (hex.length() > 100) {
+            System.out.println("Ошибка: число слишком длинное!");
+            System.exit(1);
+        }
+
+        size = hex.length();
+
+        for (int i = 0; i < size; i++) {
+            digits[i] = charToHex(hex.charAt(size - 1 - i));
+        }
+    }
+
+    // Получение строки
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = size - 1; i >= 0; i--) {
+            int val = digits[i];
+            if (val < 10) sb.append(val);
+            else sb.append((char) ('A' + val - 10));
+        }
+
+        return sb.toString();
+    }
+
+    // Сравнение
+    public boolean equals(Hex other) {
+        if (this.size != other.size) return false;
+
+        for (int i = 0; i < size; i++) {
+            if (digits[i] != other.digits[i]) return false;
+        }
+
+        return true;
+    }
+}
