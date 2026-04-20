@@ -1,0 +1,69 @@
+class Fraction {
+    private int integerPart;
+    private int[] fractionPart;
+    private int precision;
+    private boolean sign; // true = +, false = -
+
+    // Конструктор
+    public Fraction(int integerPart, int[] fractionPart, boolean sign) {
+        this.precision = fractionPart.length;
+        this.fractionPart = new int[precision];
+        this.sign = sign;
+
+        setIntegerPart(integerPart);
+        setFractionPart(fractionPart);
+    }
+
+    // Проверка цифры
+    private void checkDigit(int d) {
+        if (d < 0 || d > 9) {
+            System.out.println("Ошибка: неверная цифра!");
+            System.exit(1);
+        }
+    }
+
+    // Set
+    public void setIntegerPart(int value) {
+        if (value < 0) {
+            System.out.println("Ошибка: целая часть < 0!");
+            System.exit(1);
+        }
+        this.integerPart = value;
+    }
+
+    public void setFractionPart(int[] arr) {
+        if (arr.length != precision) {
+            System.out.println("Ошибка: неверная длина дробной части!");
+            System.exit(1);
+        }
+
+        for (int i = 0; i < precision; i++) {
+            checkDigit(arr[i]);
+            fractionPart[i] = arr[i];
+        }
+    }
+
+    public void setSign(boolean sign) {
+        this.sign = sign;
+    }
+
+    // Get
+    public int getIntegerPart() { return integerPart; }
+    public int[] getFractionPart() { return fractionPart; }
+    public boolean getSign() { return sign; }
+
+    // toString
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        if (!sign) sb.append("-");
+
+        sb.append(integerPart).append(".");
+
+        for (int i = 0; i < precision; i++) {
+            sb.append(fractionPart[i]);
+        }
+
+        return sb.toString();
+    }
+}
