@@ -1,0 +1,30 @@
+public class Main {
+    public static void main(String[] args) {
+
+        // Triad
+        Triad t1 = new Triad(1, 2, 3);
+        Triad t2 = new Triad(3, 3, 0);
+
+        System.out.println(t1.toString());
+        System.out.println(t2.toString());
+
+        if (t1.greaterThan(t2)) {
+            System.out.println("t1 больше t2");
+        } else {
+            System.out.println("t1 не больше t2");
+        }
+
+        // Date
+        Date d1 = new Date(2024, 5, 10);
+        Date d2 = new Date(2023, 12, 25);
+
+        System.out.println(d1.toString());
+        System.out.println(d2.toString());
+
+        if (d1.greaterThan(d2)) {
+            System.out.println("d1 позже d2");
+        } else {
+            System.out.println("d1 не позже d2");
+        }
+    }
+}
